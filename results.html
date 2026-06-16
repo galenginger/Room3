@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escape Room — Slutresultat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #000010;
+      --cyan:   #00f5d4;
+      --purple: #b44fff;
+      --text:   #c0ffe8;
+      --dim:    #3a7a6a;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 20% 50%, rgba(180,79,255,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(0,245,212,0.08) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .star {
+      position: fixed;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; }
+      50%       { opacity: 1; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 90%;
+      border: 1px solid rgba(0,245,212,0.2);
+      background: rgba(0,8,25,0.85);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(0,245,212,0.15), transparent 50%, rgba(180,79,255,0.1));
+      pointer-events: none;
+    }
+
+    .symbol {
+      font-size: 3rem;
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0,245,212,0.4);
+      animation: sym-pulse 2s ease-in-out infinite;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    @keyframes sym-pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.08); }
+    }
+
+    .label-top {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      color: var(--dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-weight: 900;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan), 0 0 30px rgba(0,245,212,0.4);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+      animation: glitch 6s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 90%, 100% { text-shadow: 0 0 10px var(--cyan), 0 0 30px rgba(0,245,212,0.4); transform: translate(0); }
+      91% { transform: translate(-3px, 1px); text-shadow: 3px 0 var(--cyan), -3px 0 var(--purple); }
+      92% { transform: translate(3px, -1px); }
+      93% { transform: translate(0); }
+    }
+
+    .time-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .time-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3rem, 12vw, 5rem);
+      font-weight: 900;
+      color: var(--purple);
+      text-shadow: 0 0 15px var(--purple), 0 0 50px rgba(180,79,255,0.5);
+      letter-spacing: 0.05em;
+      display: block;
+      animation: time-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes time-glow {
+      0%   { text-shadow: 0 0 15px var(--purple), 0 0 40px rgba(180,79,255,0.4); }
+      100% { text-shadow: 0 0 25px var(--purple), 0 0 80px rgba(180,79,255,0.6); }
+    }
+
+    .time-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--dim);
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(0,245,212,0.12);
+      margin: 2rem 0;
+    }
+
+    .rooms-cleared {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: rgba(192,255,232,0.5);
+      line-height: 2;
+    }
+
+    .rooms-cleared span {
+      color: var(--cyan);
+    }
+
+    .btn-replay {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      border: 1px solid rgba(0,245,212,0.4);
+      color: var(--dim);
+      text-decoration: none;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      transition: all 0.3s;
+    }
+
+    .btn-replay:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      text-shadow: 0 0 8px var(--cyan);
+    }
+
+    .no-time {
+      font-size: 0.78rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      line-height: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <span class="symbol">⊕</span>
+    <p class="label-top">ANDROMEDA RELAY NETWORK</p>
+    <h1 class="title">UPPDRAGET SLUTFÖRT</h1>
+
+    <div id="result-block">
+      <span class="time-label">— DIN TOTALTID —</span>
+      <span class="time-value" id="time-display">--:--</span>
+      <span class="time-sub" id="time-sub"></span>
+    </div>
+
+    <hr>
+
+    <p class="rooms-cleared">
+      Alla <span>5 rum</span> avklarade.<br>
+      Andromeda-relänätet är åter under kontroll.
+    </p>
+
+    <a href="http://room2.runasp.net/" class="btn-replay">[ SPELA IGEN ]</a>
+  </div>
+
+  <script>
+    // Stars
+    for (var i = 0; i < 100; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      var size = Math.random() < 0.8 ? 1 : 2;
+      s.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'vw;top:'+(Math.random()*100)+'vh;animation-duration:'+(2+Math.random()*4)+'s;animation-delay:'+(Math.random()*5)+'s';
+      document.body.appendChild(s);
+    }
+
+    // Read ?t from URL or localStorage
+    var params = new URLSearchParams(window.location.search);
+    var t = params.get('t') || localStorage.getItem('escapeStartTime');
+
+    if (t) {
+      var startTime = parseInt(t, 10);
+      var elapsed   = Math.floor((Date.now() - startTime) / 1000);
+      var mins = Math.floor(elapsed / 60);
+      var secs = elapsed % 60;
+      var hrs  = Math.floor(mins / 60);
+      mins = mins % 60;
+
+      var timeStr = hrs > 0
+        ? hrs + ':' + (mins < 10 ? '0'+mins : mins) + ':' + (secs < 10 ? '0'+secs : secs)
+        : (mins < 10 ? '0'+mins : mins) + ':' + (secs < 10 ? '0'+secs : secs);
+
+      document.getElementById('time-display').textContent = timeStr;
+      document.getElementById('time-sub').textContent = elapsed + ' sekunder totalt';
+
+      // Clear timer so a new run starts fresh
+      localStorage.removeItem('escapeStartTime');
+    } else {
+      document.getElementById('result-block').innerHTML = '<p class="no-time">Ingen starttid hittades.<br>Gå till rum 1 för att starta klockan.</p>';
+    }
+  </script>
+
+</body>
+</html>
