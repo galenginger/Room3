@@ -21,7 +21,9 @@ var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 var CIPHER_INDICES = [20, 11, 4, 1, 25];
 var CORRECT_OFFSET = 7;
 var ANSWER = 'NEXUS';
-var NEXT_ROOM_URL = '#room4'; // Update when Room 4 URL is known
+var ROOM_NUMBER   = 3;
+var PREV_ROOM_URL = '#room2'; // Update when Room 2 URL is known
+var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/'; // Update when Room 4 URL is known
 
 // ── Wheel state ────────────────────────────────────────────────────────────
 var offset = 0;
@@ -158,7 +160,7 @@ function checkAnswer() {
     fb.className = 'feedback success';
     fb.textContent = '[ CLEARANCE GRANTED — TRANSMITTING COORDINATES ]';
     flash(gs, 'flash-ok');
-    completeRoom(3, NEXT_ROOM_URL);
+    completeRoom(ROOM_NUMBER, NEXT_ROOM_URL);
   } else if (val.length > 0) {
     fb.className = 'feedback error';
     fb.textContent = '[ INVALID CODE — ALIGN WHEEL TO CORRECT OFFSET ]';
@@ -208,6 +210,13 @@ function createParticles() {
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('back-link').href = PREV_ROOM_URL;
+
+  if (localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
+    window.location.href = PREV_ROOM_URL;
+    return;
+  }
+
   createStars();
   createParticles();
   buildRings();

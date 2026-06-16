@@ -247,6 +247,19 @@ body::after {
   50%       { box-shadow: var(--glow-purple); }
 }
 
+/* ── Back link ───────────────────────────────────────────────────────────── */
+.back-link {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--cyan); }
+
 /* ── Progress track ──────────────────────────────────────────────────────── */
 .track {
   display: flex;
