@@ -30,11 +30,9 @@ var startTime = null;
 
 function initTimer() {
   var t = new URLSearchParams(window.location.search).get('t');
-  if (t) {
-    startTime = parseInt(t, 10);
-    tickTimer();
-    setInterval(tickTimer, 1000);
-  }
+  startTime = t ? parseInt(t, 10) : Date.now();
+  tickTimer();
+  setInterval(tickTimer, 1000);
 }
 
 function tickTimer() {
