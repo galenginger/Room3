@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Room 3 — The Cipher Terminal</title>
+  <title>Rum 3 — Chifferterminalen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -15,17 +15,17 @@
 
     <div class="room-header">
       <div>
-        <div class="room-meta">ANDROMEDA RELAY NETWORK — CLASSIFIED</div>
-        <div class="room-title-line">ROOM 3 / 5 — THE CIPHER TERMINAL</div>
+        <div class="room-meta">ANDROMEDA RELÄTNÄTVERK — HEMLIGT</div>
+        <div class="room-title-line">RUM 3 / 5 — CHIFFERTERMINALEN</div>
       </div>
-      <div class="sector-badge">SECTOR<br>THREE</div>
+      <div class="sector-badge">SEKTOR<br>TRE</div>
       <div class="timer-wrap">
         <span class="timer-label">TID</span>
         <span class="timer-display" id="timer-display">--:--</span>
       </div>
     </div>
 
-    <a href="#" id="back-link" class="back-link">← SECTOR 2</a>
+    <a href="#" id="back-link" class="back-link">← SEKTOR 2</a>
 
     <div class="track">
       <div class="tick done"></div>
@@ -35,32 +35,32 @@
       <div class="tick"></div>
     </div>
 
-    <h1 class="room-main-title">THE CIPHER<br>TERMINAL</h1>
-    <p class="room-sub">Andromeda Relay — Encrypted Signal Intercept</p>
+    <h1 class="room-main-title">CHIFFE<br>TERMINALEN</h1>
+    <p class="room-sub">Andromeda-relät — Krypterad signalintercept</p>
 
     <hr class="rule">
 
     <div class="narrative">
-      Your scanner has intercepted an encrypted transmission from deep within the Andromeda relay network.
-      The signal repeats on a loop — broadcast continuously on <strong class="highlight">frequency band 7</strong>.
+      Din scanner har fångat upp en krypterad transmission från djupet av Andromeda-relätnätverket.
+      Signalen upprepas i en loop — sänds kontinuerligt på <strong class="highlight">frekvensband 7</strong>.
 
       <span class="clue-block">
-        SIGNAL LOG — ANDROMEDA RELAY STATION<br>
-        Source: Delta Quadrant — Sector 7<br>
-        Frequency: Band 7 / Channel 07<br>
-        Encryption: ALIEN-CAESAR OFFSET CIPHER<br>
+        SIGNALLOGG — ANDROMEDA RELÄTSTATION<br>
+        Källa: Deltakvadrant — Sektor 7<br>
+        Frekvens: Band 7 / Kanal 07<br>
+        Kryptering: ALIEN-CAESAR FÖRSKJUTNINGSCHIFFRER<br>
         ───────────────────────────────────<br>
-        Intercepted message:
+        Avlyssnat meddelande:
       </span>
 
-      Rotate the outer ring of the cipher terminal to the correct frequency offset.
-      Each intercepted symbol decodes to a letter — when a symbol lights up, that letter is correct.
-      Find all five. Compose the word. Enter it as your clearance code.
+      Rotera den yttre ringen på chifferterminalen till rätt frekvensförskjutning.
+      Varje avlyssnat tecken avkodas till en bokstav — när ett tecken lyser upp är den bokstaven rätt.
+      Hitta alla fem. Bilda ordet. Ange det som din behörighetskod.
     </div>
 
     <!-- Cipher wheel -->
     <div class="wheel-section">
-      <div class="wheel-label">— CIPHER TERMINAL — ROTATE OUTER RING —</div>
+      <div class="wheel-label">— CHIFFERTERMINALEN — ROTERA YTTRE RINGEN —</div>
 
       <div class="wheel-wrapper">
         <div class="wheel-glow-ring"></div>
@@ -84,7 +84,7 @@
           <circle cx="140" cy="140" r="36" fill="none" stroke="rgba(180,79,255,0.25)" stroke-width="1" stroke-dasharray="2 4"/>
 
           <!-- Center text -->
-          <text x="140" y="133" text-anchor="middle" fill="rgba(0,245,212,0.4)" font-family="Orbitron,sans-serif" font-size="7" letter-spacing="3">OFFSET</text>
+          <text x="140" y="133" text-anchor="middle" fill="rgba(0,245,212,0.4)" font-family="Orbitron,sans-serif" font-size="7" letter-spacing="3">FÖRSKJ.</text>
           <text id="center-offset" x="140" y="152" text-anchor="middle" fill="#b44fff" font-family="Orbitron,sans-serif" font-size="20" font-weight="900">0</text>
 
           <!-- Indicator pointer -->
@@ -108,7 +108,7 @@
       <div class="wheel-controls">
         <button class="rotate-btn" id="btn-left" onclick="rotate(-1)">◄</button>
         <div class="offset-display">
-          <span class="offset-label">FREQUENCY OFFSET</span>
+          <span class="offset-label">FREKVENSFÖRSKJUTNING</span>
           <span class="offset-value" id="offset-display">00</span>
         </div>
         <button class="rotate-btn" id="btn-right" onclick="rotate(1)">►</button>
@@ -120,12 +120,12 @@
 
     <!-- Answer -->
     <div class="puzzle">
-      <span class="puzzle-label">▸ CLEARANCE CODE TRANSMITTER — SECTOR 3</span>
-      <p class="puzzle-q">Align the cipher terminal to the correct frequency offset. When decoded, enter the word as your clearance code.</p>
-      <input type="text" id="answer" class="answer-input" placeholder="ENTER CLEARANCE CODE"
+      <span class="puzzle-label">▸ BEHÖRIGHETSKOD — SEKTOR 3</span>
+      <p class="puzzle-q">Ställ in chifferterminalen på rätt frekvensförskjutning. När tecknen lyser upp — bilda ordet och ange det som din behörighetskod.</p>
+      <input type="text" id="answer" class="answer-input" placeholder="ANGE BEHÖRIGHETSKOD"
              maxlength="10" autocomplete="off" autocorrect="off"
              autocapitalize="characters" spellcheck="false">
-      <button class="confirm-btn" onclick="checkAnswer()">[ TRANSMIT CLEARANCE CODE ]</button>
+      <button class="confirm-btn" onclick="checkAnswer()">[ SKICKA BEHÖRIGHETSKOD ]</button>
       <p class="feedback" id="feedback"></p>
     </div>
 

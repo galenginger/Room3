@@ -182,12 +182,12 @@ function checkAnswer() {
 
   if (val === ANSWER) {
     fb.className = 'feedback success';
-    fb.textContent = '[ CLEARANCE GRANTED — TRANSMITTING COORDINATES ]';
+    fb.textContent = '[ BEHÖRIGHET GODKÄND — SÄNDER KOORDINATER ]';
     flash(gs, 'flash-ok');
     completeRoom(ROOM_NUMBER, withTimer(NEXT_ROOM_URL));
   } else if (val.length > 0) {
     fb.className = 'feedback error';
-    fb.textContent = '[ INVALID CODE — ALIGN WHEEL TO CORRECT OFFSET ]';
+    fb.textContent = '[ OGILTIG KOD — STÄLL IN HJULET PÅ RÄTT FÖRSKJUTNING ]';
     flash(gs, 'flash-err');
   }
 }
