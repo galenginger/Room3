@@ -246,6 +246,11 @@ window.addEventListener('DOMContentLoaded', function () {
   document.getElementById('back-link').href = PREV_ROOM_URL;
   initTimer();
 
+  // Om spelaren kom hit via ?t= så har de just klarat föregående rum
+  if (new URLSearchParams(window.location.search).get('t')) {
+    localStorage.setItem('escapedRoom_' + (ROOM_NUMBER - 1), 'true');
+  }
+
   if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
     window.location.href = PREV_ROOM_URL;
     return;
