@@ -22,8 +22,41 @@ var CIPHER_INDICES = [20, 11, 4, 1, 25];
 var CORRECT_OFFSET = 7;
 var ANSWER = 'NEXUS';
 var ROOM_NUMBER   = 3;
-var PREV_ROOM_URL = '#room2'; // Update when Room 2 URL is known
-var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/'; // Update when Room 4 URL is known
+var PREV_ROOM_URL = 'room2.runasp.net/';
+var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/';
+
+// ── Timer ─────────────────────────────────────────────────────────────────
+var startTime = null;
+
+function initTimer() {
+  var params = new URLSearchParams(window.location.search);
+  var t = params.get('t');
+  if (t) {
+    startTime = parseInt(t, 10);
+    localStorage.setItem('escapeStartTime', t);
+  } else {
+    var stored = localStorage.getItem('escapeStartTime');
+    if (stored) startTime = parseInt(stored, 10);
+  }
+  if (startTime) {
+    tickTimer();
+    setInterval(tickTimer, 1000);
+  }
+}
+
+function tickTimer() {
+  var el = document.getElementById('timer-display');
+  if (!el || !startTime) return;
+  var elapsed = Math.floor((Date.now() - startTime) / 1000);
+  var mins = Math.floor(elapsed / 60);
+  var secs = elapsed % 60;
+  el.textContent = (mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
+}
+
+function withTimer(url) {
+  if (!startTime) return url;
+  return url + (url.includes('?') ? '&' : '?') + 't=' + startTime;
+}
 
 // ── Wheel state ────────────────────────────────────────────────────────────
 var offset = 0;
@@ -160,7 +193,7 @@ function checkAnswer() {
     fb.className = 'feedback success';
     fb.textContent = '[ CLEARANCE GRANTED — TRANSMITTING COORDINATES ]';
     flash(gs, 'flash-ok');
-    completeRoom(ROOM_NUMBER, NEXT_ROOM_URL);
+    completeRoom(ROOM_NUMBER, withTimer(NEXT_ROOM_URL));
   } else if (val.length > 0) {
     fb.className = 'feedback error';
     fb.textContent = '[ INVALID CODE — ALIGN WHEEL TO CORRECT OFFSET ]';
@@ -211,8 +244,9 @@ function createParticles() {
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function () {
   document.getElementById('back-link').href = PREV_ROOM_URL;
+  initTimer();
 
-  if (localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
+  if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
     window.location.href = PREV_ROOM_URL;
     return;
   }
