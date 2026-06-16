@@ -1,11 +1,5 @@
 // ── State contract ────────────────────────────────────────────────────────
-// These functions match the hub's state.js API.
 // Replace NEXT_ROOM_URL with the actual Room 4 URL when the class decides it.
-
-function isUnlocked(n) {
-  if (n === 1) return true;
-  return localStorage.getItem('escapedRoom_' + (n - 1)) === 'true';
-}
 
 function completeRoom(n, nextUrl) {
   localStorage.setItem('escapedRoom_' + n, 'true');
@@ -96,29 +90,47 @@ function rotate(dir) {
   highlightAlignedSymbol();
 }
 
-// ── Live decoding ──────────────────────────────────────────────────────────
+// ── Build symbol grid (called once on init) ────────────────────────────────
+function buildSymbolGrid() {
+  var grid = document.getElementById('symbol-grid');
+  grid.innerHTML = '';
+  CIPHER_INDICES.forEach(function (s, i) {
+    var cell = document.createElement('div');
+    cell.className = 'sym-cell';
+    cell.id = 'sym-cell-' + i;
+
+    var top = document.createElement('div');
+    top.className = 'sym-alien';
+    top.textContent = ALIEN[s];
+
+    var bot = document.createElement('div');
+    bot.className = 'sym-letter';
+    bot.id = 'sym-letter-' + i;
+    bot.textContent = '?';
+
+    cell.appendChild(top);
+    cell.appendChild(bot);
+    grid.appendChild(cell);
+  });
+}
+
+// ── Update symbol grid on each rotation ───────────────────────────────────
 function updateDecoded() {
-  var decoded = CIPHER_INDICES.map(function (s) {
-    return LETTERS[(s - offset + 26) % 26];
-  }).join('');
+  var correctAnswer = ANSWER.split('');
+  CIPHER_INDICES.forEach(function (s, i) {
+    var letter = LETTERS[(s - offset + 26) % 26];
+    var correct = letter === correctAnswer[i];
 
-  var el = document.getElementById('decoded-output');
-  var hint = document.getElementById('decoded-hint');
+    var cell   = document.getElementById('sym-cell-' + i);
+    var lEl    = document.getElementById('sym-letter-' + i);
 
-  el.textContent = decoded;
-
-  if (decoded === ANSWER) {
-    el.classList.add('solved');
-    hint.textContent = '▸ MATCH DETECTED — ENTER CODE BELOW';
-    hint.classList.add('visible');
-    // Auto-fill input as convenience
-    var inp = document.getElementById('answer');
-    if (!inp.value) inp.value = ANSWER;
-  } else {
-    el.classList.remove('solved');
-    hint.textContent = '';
-    hint.classList.remove('visible');
-  }
+    lEl.textContent = letter;
+    if (correct) {
+      cell.classList.add('sym-correct');
+    } else {
+      cell.classList.remove('sym-correct');
+    }
+  });
 }
 
 // ── Highlight aligned symbol ───────────────────────────────────────────────
@@ -196,20 +208,11 @@ function createParticles() {
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function () {
-  var locked = !isUnlocked(3);
-
-  if (locked) {
-    document.getElementById('locked-screen').style.display = 'flex';
-    document.getElementById('game-screen').style.display  = 'none';
-  }
-
   createStars();
   createParticles();
-
-  if (!locked) {
-    buildRings();
-    updateDecoded();
-  }
+  buildRings();
+  buildSymbolGrid();
+  updateDecoded();
 
   document.getElementById('answer').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') checkAnswer();

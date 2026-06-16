@@ -442,62 +442,62 @@ body::after {
   display: block;
 }
 
-/* ── Decoded output ──────────────────────────────────────────────────────── */
-.decoded-section {
+/* ── Symbol grid ─────────────────────────────────────────────────────────── */
+.symbol-grid {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
   margin: 1.5rem 0;
-  padding: 1rem 1rem 0.85rem;
-  border: 1px solid rgba(180,79,255,0.18);
+}
+
+.sym-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.5rem;
+  border: 1px solid rgba(180,79,255,0.2);
   background: rgba(180,79,255,0.03);
-  text-align: center;
+  min-width: 52px;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
 }
 
-.decoded-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  color: var(--text-dim);
-  margin-bottom: 0.6rem;
-  display: block;
+.sym-alien {
+  font-size: 1.5rem;
+  color: rgba(180,79,255,0.7);
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
-.decoded-text {
+.sym-letter {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.3rem, 5vw, 1.75rem);
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.45em;
-  color: rgba(58, 122, 106, 0.6);
-  transition: all 0.35s ease;
-  min-height: 2rem;
+  color: rgba(58,122,106,0.5);
+  transition: color 0.3s, text-shadow 0.3s;
+  min-height: 1.4rem;
 }
 
-.decoded-text.solved {
+/* Correct state — individual symbol lights up */
+.sym-cell.sym-correct {
+  border-color: rgba(0,245,212,0.6);
+  background: rgba(0,245,212,0.05);
+  box-shadow: 0 0 14px rgba(0,245,212,0.2);
+  animation: sym-pulse 1.4s ease-in-out infinite;
+}
+
+.sym-cell.sym-correct .sym-alien {
   color: var(--cyan);
   text-shadow: var(--glow-cyan);
-  animation: solved-pulse 1.2s ease-in-out infinite;
 }
 
-@keyframes solved-pulse {
-  0%, 100% { letter-spacing: 0.45em; text-shadow: var(--glow-cyan); }
-  50%       { letter-spacing: 0.55em; text-shadow: 0 0 20px #00f5d4, 0 0 60px rgba(0,245,212,0.5); }
-}
-
-.decoded-hint {
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
+.sym-cell.sym-correct .sym-letter {
   color: var(--cyan);
-  margin-top: 0.5rem;
-  min-height: 0.85rem;
-  opacity: 0;
-  transition: opacity 0.4s;
+  text-shadow: var(--glow-cyan);
 }
 
-.decoded-hint.visible {
-  opacity: 1;
-  animation: hint-blink 1.5s infinite;
-}
-
-@keyframes hint-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+@keyframes sym-pulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(0,245,212,0.2); }
+  50%       { box-shadow: 0 0 26px rgba(0,245,212,0.45); }
 }
 
 /* ── Answer section ──────────────────────────────────────────────────────── */

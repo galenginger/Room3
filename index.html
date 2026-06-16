@@ -10,15 +10,6 @@
 </head>
 <body>
 
-  <!-- Locked screen -->
-  <div id="locked-screen">
-    <div class="locked-skull">⊗</div>
-    <div class="locked-title">ACCESS DENIED</div>
-    <div class="locked-alien">⋊⟐⟁✦⋏ ⊕✦⌖⊹⟁</div>
-    <div class="locked-sub">SECURITY CLEARANCE REQUIRED<br>SECTOR 2 MUST BE CLEARED FIRST</div>
-    <a href="#room2" class="btn-back">[ ← RETURN TO SECTOR 2 ]</a>
-  </div>
-
   <!-- Game screen -->
   <div id="game-screen">
 
@@ -55,10 +46,9 @@
         Intercepted message:
       </span>
 
-      <span class="ciphertext" id="ciphertext-display">⋊ &nbsp; ⟐ &nbsp; ⟁ &nbsp; ✦ &nbsp; ⋏</span>
-
       Rotate the outer ring of the cipher terminal to the correct frequency offset.
-      When the decoded output lights up, enter the word as your clearance code.
+      Each intercepted symbol decodes to a letter — when a symbol lights up, that letter is correct.
+      Find all five. Compose the word. Enter it as your clearance code.
     </div>
 
     <!-- Cipher wheel -->
@@ -118,12 +108,8 @@
       </div>
     </div>
 
-    <!-- Decoded output -->
-    <div class="decoded-section">
-      <span class="decoded-label">— DECODED OUTPUT —</span>
-      <div class="decoded-text" id="decoded-output">· · · · ·</div>
-      <div class="decoded-hint" id="decoded-hint"></div>
-    </div>
+    <!-- Symbol grid: each ciphertext symbol + its current decoded letter -->
+    <div class="symbol-grid" id="symbol-grid"></div>
 
     <!-- Answer -->
     <div class="puzzle">
