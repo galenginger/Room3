@@ -229,6 +229,28 @@ body::after {
   letter-spacing: 0.08em;
 }
 
+.timer-wrap {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.timer-label {
+  display: block;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin-bottom: 0.1rem;
+}
+
+.timer-display {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 0.08em;
+}
+
 .sector-badge {
   font-size: 0.56rem;
   letter-spacing: 0.12em;
