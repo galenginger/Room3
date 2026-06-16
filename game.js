@@ -21,6 +21,7 @@ var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 var CIPHER_INDICES = [20, 11, 4, 1, 25];
 var CORRECT_OFFSET = 7;
 var ANSWER = 'NEXUS';
+var PREV_ROOM_URL = '#room2'; // Update when Room 2 URL is known
 var NEXT_ROOM_URL = '#room4'; // Update when Room 4 URL is known
 
 // ── Wheel state ────────────────────────────────────────────────────────────
@@ -208,6 +209,8 @@ function createParticles() {
 
 // ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('back-link').href = PREV_ROOM_URL;
+
   createStars();
   createParticles();
   buildRings();
