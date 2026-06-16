@@ -212,7 +212,7 @@ function createParticles() {
 window.addEventListener('DOMContentLoaded', function () {
   document.getElementById('back-link').href = PREV_ROOM_URL;
 
-  if (localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
+  if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
     window.location.href = PREV_ROOM_URL;
     return;
   }
