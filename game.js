@@ -251,10 +251,10 @@ window.addEventListener('DOMContentLoaded', function () {
     localStorage.setItem('escapedRoom_' + (ROOM_NUMBER - 1), 'true');
   }
 
-  if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
-    window.location.href = PREV_ROOM_URL;
-    return;
-  }
+  // if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
+  //   window.location.href = PREV_ROOM_URL;
+  //   return;
+  // }
 
   createStars();
   createParticles();
