@@ -29,16 +29,9 @@ var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/';
 var startTime = null;
 
 function initTimer() {
-  var params = new URLSearchParams(window.location.search);
-  var t = params.get('t');
+  var t = new URLSearchParams(window.location.search).get('t');
   if (t) {
     startTime = parseInt(t, 10);
-    localStorage.setItem('escapeStartTime', t);
-  } else {
-    var stored = localStorage.getItem('escapeStartTime');
-    if (stored) startTime = parseInt(stored, 10);
-  }
-  if (startTime) {
     tickTimer();
     setInterval(tickTimer, 1000);
   }
