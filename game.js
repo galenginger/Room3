@@ -23,7 +23,7 @@ var CORRECT_OFFSET = 7;
 var ANSWER = 'NEXUS';
 var ROOM_NUMBER   = 3;
 var PREV_ROOM_URL = 'http://room2.runasp.net/';
-var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/'; // Update when Room 4 URL is known
+var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/';
 
 // ── Wheel state ────────────────────────────────────────────────────────────
 var offset = 0;
