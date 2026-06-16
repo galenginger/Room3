@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room 3 — The Cipher Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Locked screen -->
+  <div id="locked-screen">
+    <div class="locked-skull">⊗</div>
+    <div class="locked-title">ACCESS DENIED</div>
+    <div class="locked-alien">⋊⟐⟁✦⋏ ⊕✦⌖⊹⟁</div>
+    <div class="locked-sub">SECURITY CLEARANCE REQUIRED<br>SECTOR 2 MUST BE CLEARED FIRST</div>
+    <a href="#room2" class="btn-back">[ ← RETURN TO SECTOR 2 ]</a>
+  </div>
+
+  <!-- Game screen -->
+  <div id="game-screen">
+
+    <div class="room-header">
+      <div>
+        <div class="room-meta">ANDROMEDA RELAY NETWORK — CLASSIFIED</div>
+        <div class="room-title-line">ROOM 3 / 4 — THE CIPHER TERMINAL</div>
+      </div>
+      <div class="sector-badge">SECTOR<br>THREE</div>
+    </div>
+
+    <div class="track">
+      <div class="tick done"></div>
+      <div class="tick done"></div>
+      <div class="tick current"></div>
+      <div class="tick"></div>
+    </div>
+
+    <h1 class="room-main-title">THE CIPHER<br>TERMINAL</h1>
+    <p class="room-sub">Andromeda Relay — Encrypted Signal Intercept</p>
+
+    <hr class="rule">
+
+    <div class="narrative">
+      Your scanner has intercepted an encrypted transmission from deep within the Andromeda relay network.
+      The signal repeats on a loop — broadcast continuously on <strong class="highlight">frequency band 7</strong>.
+
+      <span class="clue-block">
+        SIGNAL LOG — ANDROMEDA RELAY STATION<br>
+        Source: Delta Quadrant — Sector 7<br>
+        Frequency: Band 7 / Channel 07<br>
+        Encryption: ALIEN-CAESAR OFFSET CIPHER<br>
+        ───────────────────────────────────<br>
+        Intercepted message:
+      </span>
+
+      <span class="ciphertext" id="ciphertext-display">⋊ &nbsp; ⟐ &nbsp; ⟁ &nbsp; ✦ &nbsp; ⋏</span>
+
+      Rotate the outer ring of the cipher terminal to the correct frequency offset.
+      When the decoded output lights up, enter the word as your clearance code.
+    </div>
+
+    <!-- Cipher wheel -->
+    <div class="wheel-section">
+      <div class="wheel-label">— CIPHER TERMINAL — ROTATE OUTER RING —</div>
+
+      <div class="wheel-wrapper">
+        <div class="wheel-glow-ring"></div>
+        <svg id="cipher-svg" viewBox="0 0 280 280">
+          <!-- Outer decorative rings -->
+          <circle cx="140" cy="140" r="137" fill="none" stroke="rgba(0,245,212,0.06)" stroke-width="1"/>
+          <circle cx="140" cy="140" r="130" fill="none" stroke="rgba(0,245,212,0.12)" stroke-width="1" stroke-dasharray="4 3"/>
+
+          <!-- Outer alien ring (rotatable) -->
+          <g id="outer-ring"></g>
+
+          <!-- Ring divider -->
+          <circle cx="140" cy="140" r="97" fill="rgba(0,8,25,0.95)" stroke="rgba(180,79,255,0.5)" stroke-width="1.5"/>
+          <circle cx="140" cy="140" r="94" fill="none" stroke="rgba(180,79,255,0.15)" stroke-width="1"/>
+
+          <!-- Inner letters ring (fixed) -->
+          <g id="inner-ring"></g>
+
+          <!-- Center plate -->
+          <circle cx="140" cy="140" r="44" fill="rgba(0,4,18,0.98)" stroke="rgba(0,245,212,0.35)" stroke-width="1.5"/>
+          <circle cx="140" cy="140" r="36" fill="none" stroke="rgba(180,79,255,0.25)" stroke-width="1" stroke-dasharray="2 4"/>
+
+          <!-- Center text -->
+          <text x="140" y="133" text-anchor="middle" fill="rgba(0,245,212,0.4)" font-family="Orbitron,sans-serif" font-size="7" letter-spacing="3">OFFSET</text>
+          <text id="center-offset" x="140" y="152" text-anchor="middle" fill="#b44fff" font-family="Orbitron,sans-serif" font-size="20" font-weight="900">0</text>
+
+          <!-- Indicator pointer -->
+          <polygon points="140,4 134,20 146,20" fill="#00f5d4" filter="url(#glow-cyan-f)"/>
+          <line x1="140" y1="20" x2="140" y2="42" stroke="rgba(0,245,212,0.5)" stroke-width="1" stroke-dasharray="2 3"/>
+
+          <!-- Defs -->
+          <defs>
+            <filter id="glow-cyan-f" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-purple-f" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="wheel-controls">
+        <button class="rotate-btn" id="btn-left" onclick="rotate(-1)">◄</button>
+        <div class="offset-display">
+          <span class="offset-label">FREQUENCY OFFSET</span>
+          <span class="offset-value" id="offset-display">00</span>
+        </div>
+        <button class="rotate-btn" id="btn-right" onclick="rotate(1)">►</button>
+      </div>
+    </div>
+
+    <!-- Decoded output -->
+    <div class="decoded-section">
+      <span class="decoded-label">— DECODED OUTPUT —</span>
+      <div class="decoded-text" id="decoded-output">· · · · ·</div>
+      <div class="decoded-hint" id="decoded-hint"></div>
+    </div>
+
+    <!-- Answer -->
+    <div class="puzzle">
+      <span class="puzzle-label">▸ CLEARANCE CODE TRANSMITTER — SECTOR 3</span>
+      <p class="puzzle-q">Align the cipher terminal to the correct frequency offset. When decoded, enter the word as your clearance code.</p>
+      <input type="text" id="answer" class="answer-input" placeholder="ENTER CLEARANCE CODE"
+             maxlength="10" autocomplete="off" autocorrect="off"
+             autocapitalize="characters" spellcheck="false">
+      <button class="confirm-btn" onclick="checkAnswer()">[ TRANSMIT CLEARANCE CODE ]</button>
+      <p class="feedback" id="feedback"></p>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
