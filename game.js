@@ -2,8 +2,9 @@
 // Replace NEXT_ROOM_URL with the actual Room 4 URL when the class decides it.
 
 function completeRoom(n, nextUrl) {
-  localStorage.setItem('escapedRoom_' + n, 'true');
-  setTimeout(function () { window.location.href = nextUrl; }, 1400);
+  var t = new URLSearchParams(window.location.search).get('t');
+  var dest = t ? nextUrl + '?t=' + t : nextUrl;
+  setTimeout(function () { window.location.href = dest; }, 1400);
 }
 
 // ── Cipher data ────────────────────────────────────────────────────────────
@@ -35,16 +36,9 @@ var HINTS = [
 var startTime = null;
 
 function initTimer() {
-  var params = new URLSearchParams(window.location.search);
-  var t = params.get('t');
+  var t = new URLSearchParams(window.location.search).get('t');
   if (t) {
     startTime = parseInt(t, 10);
-    localStorage.setItem('escapeStartTime', t);
-  } else {
-    var stored = localStorage.getItem('escapeStartTime');
-    if (stored) startTime = parseInt(stored, 10);
-  }
-  if (startTime) {
     tickTimer();
     setInterval(tickTimer, 1000);
   }
@@ -57,11 +51,6 @@ function tickTimer() {
   var mins = Math.floor(elapsed / 60);
   var secs = elapsed % 60;
   el.textContent = (mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
-}
-
-function withTimer(url) {
-  if (!startTime) return url;
-  return url + (url.includes('?') ? '&' : '?') + 't=' + startTime;
 }
 
 // ── Hints ─────────────────────────────────────────────────────────────────
@@ -245,7 +234,7 @@ function checkAnswer() {
     fb.className = 'feedback success';
     fb.textContent = '[ BEHÖRIGHET BEVILJAD — SÄNDER KOORDINATER ]';
     flash(gs, 'flash-ok');
-    completeRoom(ROOM_NUMBER, withTimer(NEXT_ROOM_URL));
+    completeRoom(ROOM_NUMBER, NEXT_ROOM_URL);
   } else if (val.length > 0) {
     fb.className = 'feedback error';
     fb.textContent = '[ OGILTIG KOD — RIKTA IN HJULET TILL RÄTT OFFSET ]';
@@ -297,12 +286,6 @@ function createParticles() {
 window.addEventListener('DOMContentLoaded', function () {
   document.getElementById('back-link').href = PREV_ROOM_URL;
   initTimer();
-
-  if (PREV_ROOM_URL.startsWith('http') && localStorage.getItem('escapedRoom_' + (ROOM_NUMBER - 1)) !== 'true') {
-    window.location.href = PREV_ROOM_URL;
-    return;
-  }
-
   createStars();
   createParticles();
   buildRings();
