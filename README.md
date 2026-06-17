@@ -7,7 +7,8 @@ Alien/sci-fi escape room puzzle. Part of the class escape room chain.
 **Type:** Cipher wheel (alien Caesar cipher)  
 **Ciphertext:** ⋊ ⟐ ⟁ ✦ ⋏  
 **Correct offset:** 7 (hinted in narrative as "frequency band 7")  
-**Answer:** `NEXUS`
+**Answer:** `NEXUS`  
+**Hint penalty:** 30 seconds per used hint
 
 ### How it works
 
@@ -15,6 +16,8 @@ Alien/sci-fi escape room puzzle. Part of the class escape room chain.
 - The ciphertext was encoded with offset +7: `letter index + 7 mod 26 → alien symbol`
 - The player rotates the outer ring until the decoded output spells **NEXUS**
 - Typing NEXUS and pressing transmit completes the room
+- The player can request up to 3 hints
+- Each used hint saves a 30 second penalty in `room3HintPenalty`
 
 ## URLs
 
@@ -34,6 +37,10 @@ isUnlocked(3)  // returns boolean
 
 // On success, sets escapedRoom_3 = 'true' and redirects to Room 4
 completeRoom(3, nextUrl)
+
+// Hints add 30 seconds each and save the current room penalty
+localStorage.room3HintsUsed     // "0" to "3"
+localStorage.room3HintPenalty   // "0", "30", "60", or "90"
 ```
 
 ## Team assignments
@@ -59,5 +66,7 @@ feature/*   ← individual work branches
 2. Set `localStorage.setItem('escapedRoom_2', 'true')` → room unlocks
 3. Rotate wheel to wrong offset → decoded output shows random letters
 4. Rotate to offset 7 → decoded output shows **NEXUS** with cyan glow
-5. Type NEXUS → success message + `escapedRoom_3` saved + redirect
-6. Test on mobile (touch targets, responsive layout)
+5. Click hint once → first hint appears and `room3HintPenalty` is `30`
+6. Click all hints → hint button becomes disabled and `room3HintPenalty` is `90`
+7. Type NEXUS → success message + `escapedRoom_3` saved + redirect
+8. Test on mobile (touch targets, responsive layout)

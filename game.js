@@ -24,6 +24,12 @@ var ANSWER = 'NEXUS';
 var ROOM_NUMBER   = 3;
 var PREV_ROOM_URL = 'room2.runasp.net/';
 var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/';
+var HINT_PENALTY_SECONDS = 30;
+var HINTS = [
+  'Hint 1: Frequency band 7 is repeated in the signal log for a reason.',
+  'Hint 2: Rotate the cipher terminal until the frequency offset is 07.',
+  'Hint 3: At the correct offset, the decoded clearance code spells NEXUS.'
+];
 
 // ── Timer ─────────────────────────────────────────────────────────────────
 var startTime = null;
@@ -56,6 +62,52 @@ function tickTimer() {
 function withTimer(url) {
   if (!startTime) return url;
   return url + (url.includes('?') ? '&' : '?') + 't=' + startTime;
+}
+
+// ── Hints ─────────────────────────────────────────────────────────────────
+function getHintStorageKey(name) {
+  return 'room' + ROOM_NUMBER + name;
+}
+
+function getUsedHints() {
+  return parseInt(localStorage.getItem(getHintStorageKey('HintsUsed')) || '0', 10);
+}
+
+function getHintPenalty() {
+  return parseInt(localStorage.getItem(getHintStorageKey('HintPenalty')) || '0', 10);
+}
+
+function updateHintUi() {
+  var usedHints = getUsedHints();
+  var penalty = getHintPenalty();
+  var hintButton = document.getElementById('hint-button');
+  var hintText = document.getElementById('hint-text');
+  var penaltyText = document.getElementById('hint-penalty');
+
+  if (!hintButton || !hintText || !penaltyText) return;
+
+  penaltyText.textContent = '+' + penalty + 's';
+
+  if (usedHints > 0) {
+    hintText.textContent = HINTS[Math.min(usedHints, HINTS.length) - 1];
+  }
+
+  if (usedHints >= HINTS.length) {
+    hintButton.disabled = true;
+    hintButton.textContent = '[ ALL HINTS USED ]';
+  }
+}
+
+function useHint() {
+  var usedHints = getUsedHints();
+  if (usedHints >= HINTS.length) return;
+
+  usedHints += 1;
+  var penalty = usedHints * HINT_PENALTY_SECONDS;
+
+  localStorage.setItem(getHintStorageKey('HintsUsed'), String(usedHints));
+  localStorage.setItem(getHintStorageKey('HintPenalty'), String(penalty));
+  updateHintUi();
 }
 
 // ── Wheel state ────────────────────────────────────────────────────────────
@@ -256,8 +308,11 @@ window.addEventListener('DOMContentLoaded', function () {
   buildRings();
   buildSymbolGrid();
   updateDecoded();
+  updateHintUi();
 
   document.getElementById('answer').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') checkAnswer();
   });
+
+  document.getElementById('hint-button').addEventListener('click', useHint);
 });

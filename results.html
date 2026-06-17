@@ -151,6 +151,14 @@
       display: block;
     }
 
+    .penalty-sub {
+      font-size: 0.68rem;
+      letter-spacing: 0.13em;
+      color: var(--cyan);
+      margin-top: 0.7rem;
+      display: block;
+    }
+
     hr {
       border: none;
       border-top: 1px solid rgba(0,245,212,0.12);
@@ -206,6 +214,7 @@
       <span class="time-label">— DIN TOTALTID —</span>
       <span class="time-value" id="time-display">--:--</span>
       <span class="time-sub" id="time-sub"></span>
+      <span class="penalty-sub" id="penalty-sub"></span>
     </div>
 
     <hr>
@@ -234,10 +243,16 @@
 
     if (t) {
       var startTime = parseInt(t, 10);
-      var elapsed   = Math.floor((Date.now() - startTime) / 1000);
-      var mins = Math.floor(elapsed / 60);
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var penalty = 0;
+      for (var room = 1; room <= 5; room++) {
+        penalty += parseInt(localStorage.getItem('room' + room + 'HintPenalty') || '0', 10);
+      }
+      var finalTime = elapsed + penalty;
+      var mins = Math.floor(finalTime / 60);
       var secs = elapsed % 60;
       var hrs  = Math.floor(mins / 60);
+      secs = finalTime % 60;
       mins = mins % 60;
 
       var timeStr = hrs > 0
@@ -245,7 +260,10 @@
         : (mins < 10 ? '0'+mins : mins) + ':' + (secs < 10 ? '0'+secs : secs);
 
       document.getElementById('time-display').textContent = timeStr;
-      document.getElementById('time-sub').textContent = elapsed + ' sekunder totalt';
+      document.getElementById('time-sub').textContent = finalTime + ' sekunder totalt';
+      document.getElementById('penalty-sub').textContent = penalty > 0
+        ? 'Inklusive +' + penalty + ' sekunder från använda hints'
+        : 'Inga hints använda';
 
       // Clear timer so a new run starts fresh
       localStorage.removeItem('escapeStartTime');
