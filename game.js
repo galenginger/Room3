@@ -26,9 +26,9 @@ var PREV_ROOM_URL = 'room2.runasp.net/';
 var NEXT_ROOM_URL = 'http://escape-room-4.runasp.net/';
 var HINT_PENALTY_SECONDS = 30;
 var HINTS = [
-  'Hint 1: Frequency band 7 is repeated in the signal log for a reason.',
-  'Hint 2: Rotate the cipher terminal until the frequency offset is 07.',
-  'Hint 3: At the correct offset, the decoded clearance code spells NEXUS.'
+  'Ledtråd 1: Frekvensband 7 upprepas i signalloggen av en anledning.',
+  'Ledtråd 2: Rotera chifferterminal tills frekvensoffset är 07.',
+  'Ledtråd 3: Vid rätt offset stavas den avkodade behörighetskoden NEXUS.'
 ];
 
 // ── Timer ─────────────────────────────────────────────────────────────────
@@ -94,7 +94,7 @@ function updateHintUi() {
 
   if (usedHints >= HINTS.length) {
     hintButton.disabled = true;
-    hintButton.textContent = '[ ALL HINTS USED ]';
+    hintButton.textContent = '[ ALLA LEDTRÅDAR ANVÄNDA ]';
   }
 }
 
@@ -243,12 +243,12 @@ function checkAnswer() {
 
   if (val === ANSWER) {
     fb.className = 'feedback success';
-    fb.textContent = '[ CLEARANCE GRANTED — TRANSMITTING COORDINATES ]';
+    fb.textContent = '[ BEHÖRIGHET BEVILJAD — SÄNDER KOORDINATER ]';
     flash(gs, 'flash-ok');
     completeRoom(ROOM_NUMBER, withTimer(NEXT_ROOM_URL));
   } else if (val.length > 0) {
     fb.className = 'feedback error';
-    fb.textContent = '[ INVALID CODE — ALIGN WHEEL TO CORRECT OFFSET ]';
+    fb.textContent = '[ OGILTIG KOD — RIKTA IN HJULET TILL RÄTT OFFSET ]';
     flash(gs, 'flash-err');
   }
 }
