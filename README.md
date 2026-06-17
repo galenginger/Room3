@@ -48,7 +48,7 @@ localStorage.room3HintPenalty   // "0", "30", "60", or "90"
 | Member | File | Issue |
 |--------|------|-------|
 | galenginger | index.html | #1 Setup, #8 Deploy |
-| DevMar1 | style.css | #3 Design, #7 Mobil |
+| DevMar1 | style.css | #3 Design, #7 Mobil | game.js | #11 Hints |
 | MrGL1 | game.js | #4 Pussel, #5 Innehåll, #10 Docs |
 | Arnell96 | README.md | #2 Kontrakt, #6 Lås, #9 Integration |
 
