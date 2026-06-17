@@ -237,9 +237,7 @@
       document.body.appendChild(s);
     }
 
-    // Read ?t from URL or localStorage
-    var params = new URLSearchParams(window.location.search);
-    var t = params.get('t') || localStorage.getItem('escapeStartTime');
+    var t = new URLSearchParams(window.location.search).get('t');
 
     if (t) {
       var startTime = parseInt(t, 10);
@@ -265,8 +263,6 @@
         ? 'Inklusive +' + penalty + ' sekunder från använda hints'
         : 'Inga hints använda';
 
-      // Clear timer so a new run starts fresh
-      localStorage.removeItem('escapeStartTime');
     } else {
       document.getElementById('result-block').innerHTML = '<p class="no-time">Ingen starttid hittades.<br>Gå till rum 1 för att starta klockan.</p>';
     }
